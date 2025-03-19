@@ -1,32 +1,87 @@
-public interface NotificationService{
-void sendNotification(String recipient, String message);
+interface IMessage {
+    String getMessageContent();
 }
 
-class EmailNotification implements NotificationService{
-    public void sendNotification(String recipient, String message){
-        System.out.println("Sending Email to recipient"+ recipient + ":" + message)
+interface INotification {
+    void notify(IMessage message);
+}
 
+class EmailMessage implements IMessage {
+    private final String content;
+
+    public EmailMessage(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public String getMessageContent() {
+        return content;
     }
 }
 
-class SMSNotification implements NotificationService{
-    public void sendNotification(String recipient, String message){
-        System.out.println("Sending SMS to recipient" + recipient + ":"+ message)
+class SMSMessage implements IMessage {
+    private final String content;
+
+    public SMSMessage(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public String getMessageContent() {
+        return content;
     }
 }
 
-class PushNotifications implements NotificationService{
-    public void sendNotification(String recipient, String message){
-        System.out.println("Sending Push Notification to recipient" + recipient+ ":"+ message)
+class PushMessage implements IMessage {
+    private final String content;
+
+    public PushMessage(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public String getMessageContent() {
+        return content;
     }
 }
 
-// Until now this is the base class where SMS, Email and Push Notifications have been implemented. 
+class WhatsappMessage implements IMessage {
+    private final String content;
 
-// Now in order to implement the newer message types we can directly use the interface to create a new class and implement them
+    public WhatsappMessage(String content) {
+        this.content = content;
+    }
 
-class WhatsappNotification implements NotificationService{
-    public void sendNotification(String recipient, String message){
-        System.out.println("Sending Whatsapp Notification to recipient" + recipient+ ":"+ message)
+    @Override
+    public String getMessageContent() {
+        return content;
+    }
+}
+
+class EmailNotification implements INotification {
+    @Override
+    public void notify(IMessage message) {
+        System.out.println("Sending Email: " + message.getMessageContent());
+    }
+}
+
+class SMSNotification implements INotification {
+    @Override
+    public void notify(IMessage message) {
+        System.out.println("Sending SMS: " + message.getMessageContent());
+    }
+}
+
+class PushNotification implements INotification {
+    @Override
+    public void notify(IMessage message) {
+        System.out.println("Sending Push Notification: " + message.getMessageContent());
+    }
+}
+
+class WhatsappNotification implements INotification {
+    @Override
+    public void notify(IMessage message) {
+        System.out.println("Sending Whatsapp Notification: " + message.getMessageContent());
     }
 }
